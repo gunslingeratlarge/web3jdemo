@@ -1,15 +1,12 @@
-package com.example.web3jdemo;
+package org.web3j;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.web3j.abi.EventValues;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
@@ -17,7 +14,6 @@ import org.web3j.model.ProjectBase;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
-import org.web3j.protocol.exceptions.TransactionException;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tuples.generated.Tuple2;
 import org.web3j.tx.Contract;
@@ -28,7 +24,6 @@ import org.web3j.utils.Convert;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -37,10 +32,11 @@ import java.util.concurrent.ExecutionException;
 @SpringBootTest
 public class Web3jdemoApplicationTests {
 
-   Logger logger =  LoggerFactory.getLogger(getClass());
+    Logger logger = LoggerFactory.getLogger(getClass());
     Web3j web3;
     Credentials credentials;
     ProjectBase contract;
+
     @Test
     public void contextLoads() {
     }
@@ -58,9 +54,10 @@ public class Web3jdemoApplicationTests {
 
         System.out.println(address);
         contract = ProjectBase.load("0x0E9EE9b450944BB318248D351f0365fbB72eb087",
-                web3,credentials,BigInteger.valueOf(5_000_000_000L),BigInteger.valueOf(300000L));
+                web3, credentials, BigInteger.valueOf(5_000_000_000L), BigInteger.valueOf(300000L));
         System.out.println("contract loaded");
     }
+
     @Test
     public void web3jConnection() throws IOException, ExecutionException, InterruptedException {
 //        Web3ClientVersion web3ClientVersion = web3j.web3ClientVersion().send();
@@ -78,17 +75,16 @@ public class Web3jdemoApplicationTests {
 
         TransactionReceipt receipt = contract.createProject("0xb6060daeb3a0fD0AfEe80aED0e64126F3528150b",
                 "projectFromIntellijIdea2", "mysteryValue").send();
-       // System.out.println(receipt.getLogs());
-       // EventValues eventValues = contract.processSomeEvent(receipt);
+        // System.out.println(receipt.getLogs());
+        // EventValues eventValues = contract.processSomeEvent(receipt);
         List<ProjectBase.ProjectCreatedEventResponse> event = contract.getProjectCreatedEvents(receipt);
-        for(ProjectBase.ProjectCreatedEventResponse e: event) {
+        for (ProjectBase.ProjectCreatedEventResponse e : event) {
             System.out.println("e.log:" + e.log);
-            System.out.println("e.address_:" +e.address_);
-            System.out.println("e.hashValue:" +e.hashValue);
-            System.out.println("e.name:" +e.name);
+            System.out.println("e.address_:" + e.address_);
+            System.out.println("e.hashValue:" + e.hashValue);
+            System.out.println("e.name:" + e.name);
         }
     }
-
 
 
     @Test
@@ -102,13 +98,23 @@ public class Web3jdemoApplicationTests {
         */
         TransactionReceipt receipt = future.get();
         List<ProjectBase.ProjectCreatedEventResponse> event = contract.getProjectCreatedEvents(receipt);
-        for(ProjectBase.ProjectCreatedEventResponse e: event) {
+        for (ProjectBase.ProjectCreatedEventResponse e : event) {
             System.out.println("e.log:" + e.log);
-            System.out.println("e.address_:" +e.address_);
-            System.out.println("e.hashValue:" +e.hashValue);
-            System.out.println("e.name:" +e.name);
+            System.out.println("e.address_:" + e.address_);
+            System.out.println("e.hashValue:" + e.hashValue);
+            System.out.println("e.name:" + e.name);
         }
     }
+
+
+    @Test
+    public void createProject() throws Exception {
+        contract.createProject("0xb6060daeb3a0fD0AfEe80aED0e64126F3528150b",
+                "noresponseneeded", "congratulations").sendAsync();
+        //我并不在乎结果，我直接sendAsync()，但是仍然会消耗时间。
+    }
+
+
     @Test
     public void createContract() throws Exception {
         logger.info("Sending 1 Wei ("
@@ -139,4 +145,9 @@ public class Web3jdemoApplicationTests {
     }
 
 
+    @Test
+    public void asyncTest() {
+        //使用观察者模式有办法吗？类似于监听器模式
+
+    }
 }

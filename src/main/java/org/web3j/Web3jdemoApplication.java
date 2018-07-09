@@ -1,4 +1,4 @@
-package com.example.web3jdemo;
+package org.web3j;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
