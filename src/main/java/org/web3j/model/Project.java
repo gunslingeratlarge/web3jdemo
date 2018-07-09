@@ -19,4 +19,12 @@ public class Project {
     public void setHashValue(String hashValue) {
         this.hashValue = hashValue;
     }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "name='" + name + '\'' +
+                ", hashValue='" + hashValue + '\'' +
+                '}';
+    }
 }

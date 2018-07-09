@@ -18,12 +18,17 @@ public class ProjectController {
     }
 
     @RequestMapping("/getProjectById")
-    public Project getProjectById(@RequestParam(value = "id", defaultValue = "0") int id) throws Exception {
-        Tuple2<String, String> res = cs.getProjectById(id);
-        Project p = new Project();
-        p.setName(res.getValue1());
-        p.setHashValue(res.getValue2());
-        return p;
+    public String getProjectById(@RequestParam(value = "id", defaultValue = "0") int id) throws Exception {
+        try {
+            Tuple2<String, String> res = cs.getProjectById(id);
+            Project p = new Project();
+            p.setName(res.getValue1());
+            p.setHashValue(res.getValue2());
+            return p.toString();
+        } catch(IndexOutOfBoundsException e) {
+            return "index越界";
+        }
+
     }
 
 
