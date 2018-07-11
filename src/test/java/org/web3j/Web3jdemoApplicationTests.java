@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
+import org.web3j.model.Project;
 import org.web3j.model.ProjectBase;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -56,6 +57,7 @@ public class Web3jdemoApplicationTests {
         contract = ProjectBase.load("0x0E9EE9b450944BB318248D351f0365fbB72eb087",
                 web3, credentials, BigInteger.valueOf(5_000_000_000L), BigInteger.valueOf(300000L));
         System.out.println("contract loaded");
+
     }
 
     @Test
@@ -84,6 +86,7 @@ public class Web3jdemoApplicationTests {
             System.out.println("e.hashValue:" + e.hashValue);
             System.out.println("e.name:" + e.name);
         }
+
     }
 
 
